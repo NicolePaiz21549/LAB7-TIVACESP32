@@ -1,0 +1,56 @@
+//***********************************************************************************
+//Universidad del Valle de Guatemala
+//BE3029 - Electrónica Digital 2
+//Dulce Nicole Monney Paiz, 21549
+//Laboratorio 7 - TIVA C & ESP32 
+//***********************************************************************************
+
+//Librerías
+//***********************************************************************************
+
+//Definición de pines
+#define AZUL A0
+#define BLUE_LED PF_2
+//***********************************************************************************
+
+//Variables globales
+uint8_t valor_contador1; //Variable para el contador de 8 bits
+//***********************************************************************************
+
+//Prototipos de funciones
+//***********************************************************************************
+
+//Configuración
+void setup() {
+  // Inicialización de la comunicación serial 
+  Serial.begin(115200);
+
+  pinMode(BLUE_LED, OUTPUT);
+}
+//***********************************************************************************
+
+//Loop principal
+void loop() {
+  //Lectura y visualización del valor AZUL - Conversión Analógica del AO(AKA PE3/AN0) a contador de 8-bits
+  int valor_analogico1=analogRead(AZUL);
+
+  //Escalar el valor analógico al rango de 0 a 255
+  valor_contador1=map(valor_analogico1, 0, 4096, 0, 255); //Rango de lectura
+
+  // Print the values
+  Serial.print("\tAZUL: ");
+  Serial.print(valor_contador1);
+  Serial.print("\tadcRaw: ");
+  Serial.println(analogRead(AZUL));
+
+  // Control the blue LED on PF3 based on the ADC value
+  if (valor_analogico1 >= 2048) {
+    digitalWrite(BLUE_LED, HIGH); // Turn on blue LED
+  } else {
+    digitalWrite(BLUE_LED, LOW);  // Turn off blue LED
+  }
+
+  //Adición de un delay para controlar la tasa de salida serial
+  delay(1000);
+}
+//***********************************************************************************
