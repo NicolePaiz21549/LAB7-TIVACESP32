@@ -35,6 +35,7 @@ void loop(){
   //Lectura y visualización del valor AZUL - Conversión Analógica a contador de 8-bits
   int valor_analogico = analogRead(ROJO);
 
+  //Condicionales para evitar la sobreescritura de dígitos en el contador ROJO
   if(valor_contador>=10 && valor_contador<=99){
     //Si el valor está entre 10 y 99, se agrega un espacio en el tercer dígito
     lcd.setCursor(2, 1); //Posición del tercer dígito
@@ -50,22 +51,22 @@ void loop(){
 
   //Impresión en LCD del POT1/ROJO
   lcd.setCursor(0, 0); 
-  lcd.print("ROJO:"); 
+  lcd.print("ROJO"); 
   lcd.setCursor(0, 1); 
   lcd.print(valor_contador);
   delay(250);
 
   //Impresión en LCD del CPU/VERDE recibido de la Tiva C
-  lcd.setCursor(6, 0); 
-  lcd.print("VERDE:"); 
-  /*lcd.setCursor(6, 1); 
+  lcd.setCursor(5, 0); 
+  lcd.print("VERDE"); 
+  /*lcd.setCursor(5, 1); 
   lcd.print(valor_contador);*/
   delay(250);
 
   //Impresión en LCD del POT2/AZUL recibido de la Tiva C
-  lcd.setCursor(14, 0); 
-  lcd.print("AZUL:"); 
-  /*lcd.setCursor(14, 1); 
+  lcd.setCursor(11, 0); 
+  lcd.print("AZUL"); 
+  /*lcd.setCursor(11, 1); 
   lcd.print(valor_contador);*/
   delay(250);
 }
