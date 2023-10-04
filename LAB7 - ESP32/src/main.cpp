@@ -8,7 +8,6 @@
 //Librerías
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
-#include "driver/ledc.h"
 //***********************************************************************************
 
 //Configuración de la dirección LCD en 0x27 para una pantalla de 16 caracteres y 2 líneas
