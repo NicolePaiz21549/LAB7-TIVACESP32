@@ -11,10 +11,16 @@
 //Definición de pines
 #define AZUL A0
 #define BLUE_LED PF_2
+#define BPLUS PF_0 //Botón para incrementar el contador verde - SW2
+#define BMINUS PF_4 //Botón para decrementar el contador verde - SW1
 //***********************************************************************************
 
 //Variables globales
-uint8_t valor_contador1; //Variable para el contador de 8 bits
+uint8_t valor_contador1; //Variable para el contador de 8 bits con potenciómetro
+uint8_t contador_verde=0; //Inicialización para el contador de 8 bits con SW1 y SW2 en 0
+
+unsigned long lastDebounceTime=0;
+unsigned long debounceDelay=50; 
 //***********************************************************************************
 
 //Prototipos de funciones
@@ -26,6 +32,8 @@ void setup() {
   Serial.begin(115200);
 
   pinMode(BLUE_LED, OUTPUT);
+  pinMode(BPLUS, INPUT_PULLUP); //Configuración de SW2
+  pinMode(BMINUS, INPUT_PULLUP); //Configuración de SW1
 }
 //***********************************************************************************
 
@@ -37,11 +45,30 @@ void loop() {
   //Escalar el valor analógico al rango de 0 a 255
   valor_contador1=map(valor_analogico1, 0, 4096, 0, 255); //Rango de lectura
 
+  //Verificación de BPLUS
+  if(digitalRead(BPLUS)==LOW && (millis()-lastDebounceTime)>debounceDelay){
+    lastDebounceTime=millis();
+    //Incremento del contador verde (verificando que no pase de 255)
+    if(contador_verde<255){
+      contador_verde++;
+    }
+  }
+
+  //Verificación de BPLUS
+  if(digitalRead(BMINUS)==LOW && (millis()-lastDebounceTime)>debounceDelay){
+    lastDebounceTime=millis();
+    if(contador_verde>0){
+      contador_verde--;
+    }
+  }
+  
   // Impresión de los valores
   Serial.print("\tAZUL: ");
   Serial.print(valor_contador1);
   Serial.print("\tadcRaw: ");
   Serial.println(analogRead(AZUL));
+  Serial.print("\tVERDE: ");
+  Serial.print(contador_verde);
 
   // Control del LED AZUL en PF3 según el valor analógico
   if (valor_analogico1 >= 2048) {
