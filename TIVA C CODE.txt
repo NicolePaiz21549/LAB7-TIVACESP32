@@ -37,17 +37,17 @@ void loop() {
   //Escalar el valor analógico al rango de 0 a 255
   valor_contador1=map(valor_analogico1, 0, 4096, 0, 255); //Rango de lectura
 
-  // Print the values
+  // Impresión de los valores
   Serial.print("\tAZUL: ");
   Serial.print(valor_contador1);
   Serial.print("\tadcRaw: ");
   Serial.println(analogRead(AZUL));
 
-  // Control the blue LED on PF3 based on the ADC value
+  // Control del LED AZUL en PF3 según el valor analógico
   if (valor_analogico1 >= 2048) {
-    digitalWrite(BLUE_LED, HIGH); // Turn on blue LED
+    digitalWrite(BLUE_LED, HIGH); // ON LED AZUL
   } else {
-    digitalWrite(BLUE_LED, LOW);  // Turn off blue LED
+    digitalWrite(BLUE_LED, LOW);  // OFF LED AZUL
   }
 
   //Adición de un delay para controlar la tasa de salida serial
