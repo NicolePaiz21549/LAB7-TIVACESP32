@@ -48,11 +48,25 @@ void loop(){
   //Escalar el valor analógico al rango de 0 a 255
   valor_contador = map(valor_analogico, 0, 4096, 0, 255); //Rango de lectura
 
-  //Impresión en LCD
+  //Impresión en LCD del POT1/ROJO
   lcd.setCursor(0, 0); 
   lcd.print("ROJO:"); 
   lcd.setCursor(0, 1); 
   lcd.print(valor_contador);
+  delay(250);
+
+  //Impresión en LCD del CPU/VERDE recibido de la Tiva C
+  lcd.setCursor(6, 0); 
+  lcd.print("VERDE:"); 
+  /*lcd.setCursor(6, 1); 
+  lcd.print(valor_contador);*/
+  delay(250);
+
+  //Impresión en LCD del POT2/AZUL recibido de la Tiva C
+  lcd.setCursor(14, 0); 
+  lcd.print("AZUL:"); 
+  /*lcd.setCursor(14, 1); 
+  lcd.print(valor_contador);*/
   delay(250);
 }
 
