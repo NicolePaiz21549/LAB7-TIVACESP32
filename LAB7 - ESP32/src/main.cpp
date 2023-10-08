@@ -39,6 +39,9 @@ void setup(){
 //Loop principal
 //***********************************************************************************
 void loop(){
+    Serial.print("\n");
+    Serial.print("ROJO: ");
+    Serial.println(valor_contador);
     if (Serial2.available()) {
       receivedvalue1 = Serial2.parseInt();
       Serial.print("AZUL: ");
@@ -52,6 +55,8 @@ void loop(){
   //Lectura y visualización del valor ROJO - Conversión Analógica a contador de 8-bits
   int valor_analogico = analogRead(ROJO); //Escalar el valor analógico al rango de 0 a 255
   valor_contador = map(valor_analogico, 0, 4096, 0, 255); //Rango de lectura
+  Serial2.print(valor_contador);
+  Serial2.print('\n');
  
 //Condicionales para evitar la sobreescritura de dígitos en los contadores (ROJO, VERDE & AZUL)
 //CONTADOR ROJO
