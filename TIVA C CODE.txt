@@ -22,7 +22,7 @@
 //Variables globales
 uint8_t valor_contador1; //Variable para el contador de 8 bits con potenciómetro
 uint8_t contador_verde=0; //Inicialización para el contador de 8 bits con SW1 y SW2 en 0
-int receivedvalue3=0;
+int receivedvalue3=0; //Variable determinada para recibir el contador ROJO
 
 unsigned long lastDebounceTime=0;
 unsigned long debounceDelay=50; 
@@ -33,7 +33,7 @@ unsigned long debounceDelay=50;
 
 //Configuración
 void setup() {
-  Serial.begin(115200);// Inicialización de la comunicación serial 
+  Serial.begin(115200);// Inicialización de la comunicación serial con el monitor serial
   Serial2.begin(115200); //Comunicación UART 2 con ESP32
 
   pinMode(RGBLEDG, OUTPUT);
@@ -48,14 +48,14 @@ void setup() {
 //Loop principal
 void loop() {
   Serial.print("\n");
-  if (Serial2.available()) {
+  if (Serial2.available()) { //Recepción del contador ROJO del ESP32 via UART 2
       receivedvalue3 = Serial2.parseInt();
-      Serial.print("ROJO: ");
+      Serial.print("ROJO: "); //Impresión del contador ROJO en el monitor serial 
       Serial.println(receivedvalue3);
   }
-  Serial.print("VERDE: ");
+  Serial.print("VERDE: "); //Impresión del contador VERDE en el monitor serial 
   Serial.println(contador_verde);
-  Serial.print("AZUL: ");
+  Serial.print("AZUL: "); //Impresión del contador AZUL en el monitor serial 
   Serial.println(valor_contador1);
   
   analogWrite(RGBLEDR, receivedvalue3);
