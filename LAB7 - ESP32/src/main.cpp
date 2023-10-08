@@ -15,6 +15,8 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 //***********************************************************************************
 
 //Definición de pines
+#define RXp2 16
+#define TXp2 17
 #define ROJO 34 
 //***********************************************************************************
 
@@ -24,7 +26,9 @@ uint8_t valor_contador; //Variable para el contador de 8 bits
 //Configuración
 //***********************************************************************************
 void setup(){
-    Serial.begin(115200);
+    Serial.begin(115200); //Comunicación con el monitor serial/PC
+    Serial2.begin(115200, SERIAL_8N1, RXp2, TXp2); //Comunicación UART 2 con Tiva C
+    
     lcd.init(); //Inicialización de la pantalla LCD para usar pines I2C definidos
     lcd.backlight();
 }
@@ -32,6 +36,16 @@ void setup(){
 //Loop principal
 //***********************************************************************************
 void loop(){
+  if(Serial2.available()){
+    int receivedvalue1 = Serial2.parseInt();
+    Serial.print("AZUL: ");
+    Serial.println (receivedvalue1 );
+
+    int receivedvalue2 = Serial2.parseInt();
+    Serial.print("VERDE: ");
+    Serial.println (receivedvalue2 );
+  }
+
   //Lectura y visualización del valor AZUL - Conversión Analógica a contador de 8-bits
   int valor_analogico = analogRead(ROJO);
   //Escalar el valor analógico al rango de 0 a 255
