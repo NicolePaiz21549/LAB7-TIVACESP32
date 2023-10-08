@@ -15,19 +15,18 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 //***********************************************************************************
 
 //Definición de pines
-#define RXp2 16
+#define RXp2 16 
 #define TXp2 17
 #define ROJO 34 
 //***********************************************************************************
 
 //Variables globales
 uint8_t valor_contador; //Variable para el contador de 8 bits
-int receivedvalue1 = 0;
-int receivedvalue2 = 0;
+int receivedvalue1 = 0; //Variable determinada para recibir el contador AZUL
+int receivedvalue2 = 0; //Variable determinada para recibir el contador VERDE
 //***********************************************************************************
 
 //Configuración
-//***********************************************************************************
 void setup(){
     Serial.begin(115200); //Comunicación con el monitor serial/PC
     Serial2.begin(115200, SERIAL_8N1, RXp2, TXp2); //Comunicación UART 2 con Tiva C
@@ -35,14 +34,14 @@ void setup(){
     lcd.init(); //Inicialización de la pantalla LCD para usar pines I2C definidos
     lcd.backlight();
 }
+//***********************************************************************************
 
 //Loop principal
-//***********************************************************************************
 void loop(){
-    Serial.print("\n");
+    Serial.print("\n"); //Impresión en monitor serial del contador
     Serial.print("ROJO: ");
-    Serial.println(valor_contador);
-    if (Serial2.available()) {
+    Serial.println(valor_contador); 
+    if (Serial2.available()) { //Recepción de los contadores AZUL & VERDE de la Tiva C via UART 2
       receivedvalue1 = Serial2.parseInt();
       Serial.print("AZUL: ");
       Serial.println(receivedvalue1);
@@ -55,7 +54,7 @@ void loop(){
   //Lectura y visualización del valor ROJO - Conversión Analógica a contador de 8-bits
   int valor_analogico = analogRead(ROJO); //Escalar el valor analógico al rango de 0 a 255
   valor_contador = map(valor_analogico, 0, 4096, 0, 255); //Rango de lectura
-  Serial2.print(valor_contador);
+  Serial2.print(valor_contador); //Envío de contador ROJO a la Tiva C via UART 2
   Serial2.print('\n');
  
 //Condicionales para evitar la sobreescritura de dígitos en los contadores (ROJO, VERDE & AZUL)
@@ -120,3 +119,4 @@ if (receivedvalue1>=0 && receivedvalue1<=9){ //UNIDADES A DECENAS Y VICEVERSA
   lcd.print(receivedvalue1);
   delay(20);
 }
+//***********************************************************************************
