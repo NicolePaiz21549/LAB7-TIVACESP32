@@ -34,20 +34,22 @@ void setup(){
 void loop(){
   //Lectura y visualización del valor AZUL - Conversión Analógica a contador de 8-bits
   int valor_analogico = analogRead(ROJO);
-
-  //Condicionales para evitar la sobreescritura de dígitos en el contador ROJO
-  if(valor_contador>=10 && valor_contador<=99){
-    //Si el valor está entre 10 y 99, se agrega un espacio en el tercer dígito
-    lcd.setCursor(2, 1); //Posición del tercer dígito
-    lcd.print(" ");
-  } else if (valor_contador>=0 && valor_contador<=9){
-    //Si el valor está entre 0 y 9, se agrega un espacio encima de los primeros dos dígitos
-    lcd.setCursor(1, 1); //Posición de los dos primeros dos dígitos
-    lcd.print("  ");
-  } 
-
   //Escalar el valor analógico al rango de 0 a 255
   valor_contador = map(valor_analogico, 0, 4096, 0, 255); //Rango de lectura
+ 
+  //Condicionales para evitar la sobreescritura de dígitos en el contador ROJO
+if(valor_contador>=10 && valor_contador<=99){
+  //Si el valor está entre 10 y 99, se agrega un espacio en el tercer dígito
+  lcd.setCursor(2, 1); //Posición del tercer dígito
+  lcd.print("          ");
+  } 
+  //***********************************************************************************
+
+if (valor_contador>=0 && valor_contador<=9){
+  //Si el valor está entre 0 y 9, se agrega un espacio encima de los primeros dos dígitos
+  lcd.setCursor(1, 1); //Posición de los dos primeros dos dígitos
+  lcd.print("          ");
+}
 
   //Impresión en LCD del POT1/ROJO
   lcd.setCursor(0, 0); 
