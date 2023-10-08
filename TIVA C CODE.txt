@@ -20,6 +20,7 @@
 //Variables globales
 uint8_t valor_contador1; //Variable para el contador de 8 bits con potenciómetro
 uint8_t contador_verde=0; //Inicialización para el contador de 8 bits con SW1 y SW2 en 0
+int receivedvalue3=0;
 
 unsigned long lastDebounceTime=0;
 unsigned long debounceDelay=50; 
@@ -41,6 +42,12 @@ void setup() {
 
 //Loop principal
 void loop() {
+  if (Serial2.available()) {
+      receivedvalue3 = Serial2.parseInt();
+      Serial.print("ROJO: ");
+      Serial.println(receivedvalue3);
+  }
+  
   int valor_analogico1=analogRead(AZUL); //Lectura y visualización del valor AZUL - Conversión Analógica del AO(AKA PE3/AN0) a contador de 8-bits
   valor_contador1=map(valor_analogico1, 0, 4096, 0, 255); //Escalar el valor analógico al rango de 0 a 255
 
